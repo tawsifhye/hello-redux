@@ -1,10 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { addPrice, addToCart, fetchApiData, stockHandler } from '../redux/actions/action';
 import './Global.css'
 const Shop = () => {
     const { products } = useSelector(state => state.dataReducer);
+    const [index, setrIndex] = useState(0);
+    const numberOfPages = Math.round(products.length / 10);
+    console.log(numberOfPages);
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchApiData())
@@ -19,7 +23,7 @@ const Shop = () => {
             <h2>Redux Shop</h2>
             <div>
                 {
-                    products.map(product => (
+                    products.slice(index, 10).map(product => (
                         <div className='product-card' key={product.key}>
                             <img src={product.img} alt="" />
                             <div className='product-details'>
@@ -39,6 +43,18 @@ const Shop = () => {
                     ))
                 }
             </div>
+
+            <div className='d-flex justify-content-around w-50'>
+                {
+                    [...Array(numberOfPages)].map((element, index) => (
+
+                        <div className='pagination-tab' key={index}>{index + 1}</div>
+
+                    ))
+                }
+
+            </div>
+
         </div>
     );
 };
