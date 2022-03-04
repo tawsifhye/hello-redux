@@ -1,8 +1,8 @@
 
 
-export const loadData = (payload) => {
+export const addToCart = (payload) => {
     return {
-        type: 'LOAD_SHOP_DATA',
+        type: 'ADD_TO_CART',
         payload
     }
 

@@ -1,10 +1,12 @@
 import './App.css';
+import Cart from './Component/Cart';
 import Shop from './Component/Shop';
 
 function App() {
   return (
-    <div >
+    <div className='row'>
       <Shop />
+      <Cart />
     </div>
   );
 }

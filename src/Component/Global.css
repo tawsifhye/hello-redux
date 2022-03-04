@@ -1,0 +1,20 @@
+.shop-container {
+    padding: 20px;
+}
+
+.shop-container>h2 {
+    text-align: center;
+}
+
+.product-card {
+    background-color: white;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.cart-container {
+    background-color: white;
+    padding: 20px;
+    width: 75%;
+    margin-top: 100px;
+}
