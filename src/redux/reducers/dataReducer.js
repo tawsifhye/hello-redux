@@ -37,6 +37,24 @@ export const dataReducer = (state = initialDataState, action) => {
             totalShipping: action.payload
         }
     }
+    else if (action.type === 'VAT_CALC') {
+        return {
+            ...state,
+            totalVat: action.payload
+        }
+    }
+    else if (action.type === 'CALC_SUBTOTAL') {
+        return {
+            ...state,
+            subTotal: action.payload
+        }
+    }
+    else if (action.type === 'CALC_TOTAL') {
+        return {
+            ...state,
+            finalTotal: action.payload
+        }
+    }
 
     else {
         return initialDataState;

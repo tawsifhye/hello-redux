@@ -33,11 +33,32 @@ export const addShipping = (payload) => {
     }
 }
 
+
+export const vatCalculation = (payload) => {
+    return {
+        type: 'VAT_CALC',
+        payload
+    }
+}
+export const calculateSubTotal = (payload) => {
+    return {
+        type: 'CALC_SUBTOTAL',
+        payload
+    }
+}
+export const calculateTotal = (payload) => {
+    return {
+        type: 'CALC_TOTAL',
+        payload
+    }
+}
+
 export const stockHandler = (payload) => {
     return {
         type: 'STOCK_MAINTAIN',
         payload
     }
 }
+
 
 
