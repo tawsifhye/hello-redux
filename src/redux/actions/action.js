@@ -19,3 +19,10 @@ export const fetchApiData = () => {
         })
     }
 }
+
+export const addPrice = (payload) => {
+    return {
+        type: 'ADD_PRICE',
+        payload
+    }
+}

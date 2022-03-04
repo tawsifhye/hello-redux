@@ -4,8 +4,7 @@ import { useDispatch } from 'react-redux';
 import { addToCart, fetchApiData } from '../redux/actions/action';
 import './Global.css'
 const Shop = () => {
-    const { products, cart } = useSelector(state => state.dataReducer);
-    console.log(cart);
+    const { products } = useSelector(state => state.dataReducer);
     const dispatch = useDispatch();
 
     useEffect(() => {
