@@ -27,8 +27,13 @@ const Shop = () => {
                                 <p>Category: {product.category}</p>
                                 <p>Price: ${product.price}</p>
                                 <p>Shipping: ${product.shipping}</p>
-                                <small className='text-danger'>In Stock: {product.stock}</small>
-                                <button onClick={() => handleCart(product)} className='btn btn-warning fw-bold d-block'>Add To Cart</button>
+                                {
+                                    !product.stock ?
+                                        <h4 className='text-danger'>Out of Stock</h4>
+                                        :
+                                        <small className='text-danger'>In Stock: {product.stock}</small>
+                                }
+                                <button disabled={!product.stock} onClick={() => handleCart(product)} className='btn btn-warning fw-bold d-block'>Add To Cart</button>
                             </div>
                         </div>
                     ))
