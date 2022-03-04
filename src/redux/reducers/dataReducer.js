@@ -1,4 +1,4 @@
-import { initialCartState, initialDataState } from "../initialState";
+import { initialDataState } from "../initialState";
 
 export const dataReducer = (state = initialDataState, action) => {
     if (action.type === 'FETCH_API_DATA') {
@@ -13,26 +13,58 @@ export const dataReducer = (state = initialDataState, action) => {
             cart: [...state.cart, action.payload]
         }
     }
+
+    else if (action.type === 'STOCK_MAINTAIN') {
+        return {
+            ...state,
+            products: state.products.map(product => {
+                if (product.key === action.payload) {
+                    product.stock -= 1;
+                }
+                return product;
+            })
+        }
+    }
+    else if (action.type === 'ADD_PRICE') {
+        return {
+            ...state,
+            totalPrice: action.payload
+        }
+    }
+    else if (action.type === 'ADD_SHIPPING') {
+        return {
+            ...state,
+            totalShipping: action.payload
+        }
+    }
+
     else {
         return initialDataState;
     }
 }
 
-export const cartReducer = (state = initialCartState, { type, payload }) => {
-    if (type === 'ADD_PRICE') {
+
+
+
+/* const cartReducer = (state = initialCartState, action) => {
+    if (action.type === 'ADD_PRICE') {
         return {
             ...state,
-            totalPrice: payload
+            totalPrice: action.payload
         }
     }
-    else if (type === 'ADD_SHIPPING') {
+    else if (action.type === 'ADD_SHIPPING') {
         return {
             ...state,
-            totalShipping: payload
+            totalShipping: action.payload
         }
     }
     else {
         return initialCartState;
     }
 }
+
+export default cartReducer; */
+
+
 

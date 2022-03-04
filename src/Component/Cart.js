@@ -1,36 +1,45 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../redux/actions/action';
+import { addPrice, addShipping } from '../redux/actions/action';
 
 const Cart = () => {
-    const { cart } = useSelector(state => state.dataReducer);
     const dispatch = useDispatch();
-    const { totalPrice,
+    const { cart, totalPrice,
         totalShipping,
         subTotal,
         vat,
         totalVat,
-        finalTotal } = useSelector(state => state.cartReducer);
+        finalTotal } = useSelector(state => state.dataReducer);
+
+    let onlyPrice = 0;
+    let onlyShipping = 0;
 
     useEffect(() => {
-        dispatch()
-    }, [])
-    console.log(cart);
+        cart.forEach(item => {
+            onlyPrice += item.price;
+            onlyShipping += item.shipping;
+        })
+        dispatch(addPrice(onlyPrice));
+        dispatch(addShipping(onlyShipping));
+    }, [onlyPrice, cart])
+
+    console.log(totalShipping);
+    // console.log('useref', onlyShipping.current);
     return (
         <div className='col-4'>
             <div className='cart-container sticky-top ms-auto'>
                 <h4>Cart</h4>
                 <p>Items Ordered: {cart.length}</p>
                 <hr />
-                <p>Price: </p>
+                <p>Price: ${totalPrice.toFixed(2)}</p>
                 <hr />
-                <p>Shipping: </p>
+                <p>Vat: ${(vat * totalPrice).toFixed(2)}</p>
                 <hr />
-                <p>Subtotal: </p>
+                <p>Shipping: ${totalShipping.toFixed(2)}</p>
                 <hr />
-                <p>Vat: </p>
+                <p>Subtotal: ${(totalPrice + totalShipping).toFixed(2)} </p>
                 <hr />
-                <p>Total: </p>
+                <p>Total: $</p>
                 <hr />
                 <button className='btn btn-warning fw-bold'>Check Out</button>
             </div>

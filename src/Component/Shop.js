@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { addToCart, fetchApiData } from '../redux/actions/action';
+import { addPrice, addToCart, fetchApiData, stockHandler } from '../redux/actions/action';
 import './Global.css'
 const Shop = () => {
     const { products } = useSelector(state => state.dataReducer);
     const dispatch = useDispatch();
-
     useEffect(() => {
         dispatch(fetchApiData())
     }, [])
 
+    const handleCart = (product) => {
+        dispatch(addToCart(product));
+        dispatch(stockHandler(product.key));
+    };
     return (
         <div className='col-8 shop-container'>
             <h2>Redux Shop</h2>
@@ -25,7 +28,7 @@ const Shop = () => {
                                 <p>Price: ${product.price}</p>
                                 <p>Shipping: ${product.shipping}</p>
                                 <small className='text-danger'>In Stock: {product.stock}</small>
-                                <button onClick={() => dispatch(addToCart(product))} className='btn btn-warning fw-bold d-block'>Add To Cart</button>
+                                <button onClick={() => handleCart(product)} className='btn btn-warning fw-bold d-block'>Add To Cart</button>
                             </div>
                         </div>
                     ))

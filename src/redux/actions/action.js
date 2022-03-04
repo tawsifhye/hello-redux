@@ -26,3 +26,18 @@ export const addPrice = (payload) => {
         payload
     }
 }
+export const addShipping = (payload) => {
+    return {
+        type: 'ADD_SHIPPING',
+        payload
+    }
+}
+
+export const stockHandler = (payload) => {
+    return {
+        type: 'STOCK_MAINTAIN',
+        payload
+    }
+}
+
+
