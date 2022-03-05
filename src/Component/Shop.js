@@ -1,28 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
-import { addPrice, addToCart, fetchApiData, stockHandler } from '../redux/actions/action';
+import { addToCart, fetchApiData, stockHandler } from '../redux/actions/action';
 import './Global.css'
 
-
-/* const Button = styled.a`
-background: ${props => props.link = 'red'};
-background: ${props => props.visited = 'green'};
-
-& + ${() => Button} {
-   margin-top: 20px;
-}
-` */
 
 const Shop = () => {
 
 
     const { products } = useSelector(state => state.dataReducer);
     const [index, setIndex] = useState(0);
+    const productPerPage = 8;
     const [startFrom, setStartFrom] = useState(index);
-    const [endOn, setEndOn] = useState(10);
-    const numberOfPages = Math.ceil(products.length / 10);
+    const [endOn, setEndOn] = useState(productPerPage);
+    const numberOfPages = Math.ceil(products.length / productPerPage);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -35,23 +26,23 @@ const Shop = () => {
     };
 
     const handlePageChange = (pageNum) => {
-        const calcStart = pageNum * 10;
-        const calcEnd = calcStart + 10
+        const calcStart = pageNum * productPerPage;
+        const calcEnd = calcStart + productPerPage
         setStartFrom(calcStart);
         setEndOn(calcEnd);
         setIndex(pageNum);
     }
 
     const goNext = () => {
-        const calcStart = (index + 1) * 10;
-        const calcEnd = calcStart + 10
+        const calcStart = (index + 1) * productPerPage;
+        const calcEnd = calcStart + productPerPage
         setStartFrom(calcStart);
         setEndOn(calcEnd);
         setIndex(index + 1);
     }
     const goPrev = () => {
-        const calcStart = (index - 1) * 10;
-        const calcEnd = calcStart + 10
+        const calcStart = (index - 1) * productPerPage;
+        const calcEnd = calcStart + productPerPage
         setStartFrom(calcStart);
         setEndOn(calcEnd);
         setIndex(index - 1);
@@ -66,7 +57,6 @@ const Shop = () => {
                         <div className='product-card' key={product.key}>
                             <img src={product.img} alt="" />
                             <div className='product-details'>
-                                <h4>{index}</h4>
                                 <h6>{product.name}</h6>
                                 <p>Category: {product.category}</p>
                                 <p>Price: ${product.price}</p>
