@@ -1,10 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import { addPrice, addToCart, fetchApiData, stockHandler } from '../redux/actions/action';
 import './Global.css'
+
+
+/* const Button = styled.a`
+background: ${props => props.link = 'red'};
+background: ${props => props.visited = 'green'};
+
+& + ${() => Button} {
+   margin-top: 20px;
+}
+` */
+
 const Shop = () => {
+
+
     const { products } = useSelector(state => state.dataReducer);
+    const [index, setIndex] = useState(0);
+    const [startFrom, setStartFrom] = useState(index);
+    const [endOn, setEndOn] = useState(10);
+    const numberOfPages = Math.ceil(products.length / 10);
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchApiData())
@@ -14,15 +33,40 @@ const Shop = () => {
         dispatch(addToCart(product));
         dispatch(stockHandler(product.key));
     };
+
+    const handlePageChange = (pageNum) => {
+        const calcStart = pageNum * 10;
+        const calcEnd = calcStart + 10
+        setStartFrom(calcStart);
+        setEndOn(calcEnd);
+        setIndex(pageNum);
+    }
+
+    const goNext = () => {
+        const calcStart = (index + 1) * 10;
+        const calcEnd = calcStart + 10
+        setStartFrom(calcStart);
+        setEndOn(calcEnd);
+        setIndex(index + 1);
+    }
+    const goPrev = () => {
+        const calcStart = (index - 1) * 10;
+        const calcEnd = calcStart + 10
+        setStartFrom(calcStart);
+        setEndOn(calcEnd);
+        setIndex(index - 1);
+    }
+    console.log(index, startFrom, endOn);
     return (
         <div className='col-8 shop-container'>
             <h2>Redux Shop</h2>
             <div>
                 {
-                    products.map(product => (
+                    products.slice(startFrom, endOn).map((product, index) => (
                         <div className='product-card' key={product.key}>
                             <img src={product.img} alt="" />
                             <div className='product-details'>
+                                <h4>{index}</h4>
                                 <h6>{product.name}</h6>
                                 <p>Category: {product.category}</p>
                                 <p>Price: ${product.price}</p>
@@ -39,6 +83,20 @@ const Shop = () => {
                     ))
                 }
             </div>
+
+            <div className='d-flex justify-content-around w-lg-50'>
+                <button onClick={goPrev} className="btn btn-primary" disabled={index === 0}>{'<<'} Prev</button>
+                {
+
+                    [...Array(numberOfPages)].map((element, index) => (
+
+                        <button onClick={() => handlePageChange(index)} className='pagination-tab btn btn-primary' key={index}>{index + 1}</button>
+
+                    ))
+                }
+                <button onClick={goNext} className="btn btn-primary" disabled={index === numberOfPages - 1}>Next {'>>'}</button>
+            </div>
+            <h4 className='mt-5'>Page:{index + 1}/{numberOfPages}</h4>
         </div>
     );
 };
