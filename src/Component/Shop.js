@@ -5,9 +5,10 @@ import { addPrice, addToCart, fetchApiData, stockHandler } from '../redux/action
 import './Global.css'
 const Shop = () => {
     const { products } = useSelector(state => state.dataReducer);
-    const [index, setrIndex] = useState(0);
-    const numberOfPages = Math.round(products.length / 10);
-    console.log(numberOfPages);
+    const [index, setIndex] = useState(0);
+    const [startFrom, setStartFrom] = useState(index);
+    const [endOn, setEndOn] = useState(10);
+    const numberOfPages = Math.ceil(products.length / 10);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -18,15 +19,26 @@ const Shop = () => {
         dispatch(addToCart(product));
         dispatch(stockHandler(product.key));
     };
+
+    const handlePageChange = (pageNum) => {
+
+        const calcStart = pageNum * 10;
+        const calcEnd = calcStart + 10
+        setStartFrom(calcStart);
+        setEndOn(calcEnd);
+        setIndex(pageNum);
+    }
+    console.log(index, startFrom, endOn);
     return (
         <div className='col-8 shop-container'>
             <h2>Redux Shop</h2>
             <div>
                 {
-                    products.slice(index, 10).map(product => (
+                    products.slice(startFrom, endOn).map((product, index) => (
                         <div className='product-card' key={product.key}>
                             <img src={product.img} alt="" />
                             <div className='product-details'>
+                                <h4>{index}</h4>
                                 <h6>{product.name}</h6>
                                 <p>Category: {product.category}</p>
                                 <p>Price: ${product.price}</p>
@@ -48,7 +60,7 @@ const Shop = () => {
                 {
                     [...Array(numberOfPages)].map((element, index) => (
 
-                        <div className='pagination-tab' key={index}>{index + 1}</div>
+                        <button onClick={() => handlePageChange(index)} className='pagination-tab btn btn-primary' key={index}>{index + 1}</button>
 
                     ))
                 }
