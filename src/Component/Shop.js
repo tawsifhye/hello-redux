@@ -10,7 +10,7 @@ const Shop = () => {
 
     const { products } = useSelector(state => state.dataReducer);
     const [index, setIndex] = useState(0);
-    const productPerPage = 8;
+    const productPerPage = 10;
     const [startFrom, setStartFrom] = useState(index);
     const [endOn, setEndOn] = useState(productPerPage);
     const numberOfPages = Math.ceil(products.length / productPerPage);
